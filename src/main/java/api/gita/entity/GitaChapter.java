@@ -14,15 +14,19 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Data
-@Document
-public class GitaChapterHindi {
+@Document("GITA_CHAPTER")
+public class GitaChapter {
 
 	@Id
 	private String id;
+	@NonNull
+	private Integer bookId;
 	@NonNull
 	private Integer chapterIndex;
 	@NonNull
 	private String chapterName;
 	@NonNull
 	private String chapterHeading;
+	@NonNull
+	private String description;
 }
