@@ -56,7 +56,7 @@ public class BookController {
 
 	@GetMapping("/chapter/{id}")
 	public RestResponse<BookChapterResponseDTO> getChapterList(@PathVariable("id") Integer id,
-			@RequestParam(defaultValue = "0") Integer pageNumber, @RequestParam(defaultValue = "10") Integer pageSize)
+			@RequestParam(defaultValue = "0") Integer pageNumber, @RequestParam(defaultValue = "18") Integer pageSize)
 			throws Exception {
 		Book books = bookService.getBook(id);
 		Page<GitaChapter> gitaChapters = bookService.getChapters(id, pageNumber, pageSize);

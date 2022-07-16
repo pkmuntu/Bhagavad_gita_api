@@ -49,7 +49,7 @@ public class BookServiceImpl implements IBookService {
 
 	@Override
 	public Page<GitaChapter> getChapters(Integer bookId, Integer pageNumber, Integer pageSize) throws Exception {
-		Pageable pageable = PageRequest.of(0, 5, Sort.by(Constants.CHAPTER_INDEX).ascending());
+		Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Constants.CHAPTER_INDEX).ascending());
 		return gitaChapterRepository.findByBookId(bookId, pageable);
 	}
 
