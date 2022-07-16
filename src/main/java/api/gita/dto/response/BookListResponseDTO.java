@@ -15,7 +15,7 @@ public class BookListResponseDTO {
 	private List<BookResponseDTO> books;
 
 	public static BookListResponseDTO of(List<BookResponseDTO> books) {
-		return new BookListResponseDTO("self-heap", books);
+		return new BookListResponseDTO("Devotional", books);
 	}
 
 }

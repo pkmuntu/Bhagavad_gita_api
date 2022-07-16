@@ -25,6 +25,16 @@ public class BookControllerMapper {
 					book.getCoverImageUrl(), book.getLanguage(), book.getColorCode()));
 		});
 		bookListResponses.add(BookListResponseDTO.of(bookResponses));
+		bookListResponses.add(BookListResponseDTO.of(bookResponses));
+		bookListResponses.add(BookListResponseDTO.of(bookResponses));
+		bookListResponses.add(BookListResponseDTO.of(bookResponses));
+		bookListResponses.add(BookListResponseDTO.of(bookResponses));
+		bookListResponses.add(BookListResponseDTO.of(bookResponses));
+		bookListResponses.add(BookListResponseDTO.of(bookResponses));
+		bookListResponses.add(BookListResponseDTO.of(bookResponses));
+		bookListResponses.add(BookListResponseDTO.of(bookResponses));
+		bookListResponses.add(BookListResponseDTO.of(bookResponses));
+		bookListResponses.add(BookListResponseDTO.of(bookResponses));
 		return bookListResponses;
 	}
 
