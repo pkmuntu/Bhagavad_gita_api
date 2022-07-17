@@ -49,8 +49,9 @@ public class BookControllerMapper {
 				gitaChapters.getSize(), gitaChapters.getTotalElements(), gitaChapters.getTotalPages());
 		List<ChapterDTO> bookChapters = new ArrayList<>();
 		gitaChapters.forEach(bookChapter -> {
-			bookChapters.add(ChapterDTO.of(bookChapter.getBookId(), bookChapter.getChapterIndex(),
-					bookChapter.getChapterName(), bookChapter.getChapterHeading(), bookChapter.getDescription()));
+			bookChapters.add(
+					ChapterDTO.of(bookChapter.getBookId(), bookChapter.getChapterIndex(), bookChapter.getChapterName(),
+							bookChapter.getChapterHeading(), bookChapter.getImageUrl(), bookChapter.getDescription()));
 		});
 		return ChapterResponseDTO.of(BookResponseDTO.of(book.getBookId(), book.getTitle(), book.getSubTitle(),
 				book.getColorCode(), book.getLanguage(), book.getColorCode()), metadataForPagination, bookChapters);
@@ -59,7 +60,7 @@ public class BookControllerMapper {
 
 	public SubChapterResponseDTO buildChapterResponseDTO(GitaChapter chapter, Integer pageNumber, Integer pageSize) {
 		ChapterDTO chapterDTO = ChapterDTO.of(chapter.getBookId(), chapter.getChapterIndex(), chapter.getChapterName(),
-				chapter.getChapterHeading(), chapter.getDescription());
+				chapter.getChapterHeading(), chapter.getImageUrl(), chapter.getDescription());
 		MetadataForPagination metadataForPagination = MetadataForPagination.of(pageNumber, pageSize,
 				(long) (int) chapter.getSubChapter().keySet().size(),
 				((chapter.getSubChapter().keySet().size()) % pageSize) == 0

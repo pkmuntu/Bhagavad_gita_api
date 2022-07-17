@@ -33,4 +33,6 @@ public class GitaChapter {
 	private String description;
 	@NonNull
 	private Map<String, String> subChapter;
+	@NonNull
+	private String imageUrl;
 }
