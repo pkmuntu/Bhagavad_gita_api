@@ -15,8 +15,10 @@ import api.gita.dto.response.ChapterResponseDTO;
 import api.gita.dto.response.MetadataForPagination;
 import api.gita.dto.response.SubChapterDTO;
 import api.gita.dto.response.SubChapterResponseDTO;
+import api.gita.dto.response.VerseResponseDTO;
 import api.gita.entity.Book;
 import api.gita.entity.GitaChapter;
+import api.gita.entity.Verse;
 
 @Component
 public class BookControllerMapper {
@@ -66,11 +68,11 @@ public class BookControllerMapper {
 		Integer count = 0;
 		List<SubChapterDTO> subChapters = new ArrayList<SubChapterDTO>();
 		for (String key : getKeyList(chapter)) {
-			if(count<pageNumber*pageSize) {
+			if (count < pageNumber * pageSize) {
 				count++;
 				continue;
 			}
-			if (count == (pageNumber+1)*pageSize )
+			if (count == (pageNumber + 1) * pageSize)
 				break;
 			count++;
 			subChapters.add(SubChapterDTO.of(key, chapter.getSubChapter().get(key)));
@@ -78,14 +80,19 @@ public class BookControllerMapper {
 		return SubChapterResponseDTO.of(chapterDTO, metadataForPagination, subChapters);
 	}
 
+	public VerseResponseDTO buildVerseRespnseDTO(Verse verse) {
+		return VerseResponseDTO.of(verse.getBookId(), verse.getChapterIndex(), verse.getVerseNumber(),
+				verse.getOriginalVerse_Hi(), verse.getOriginalVerse_En(), verse.getWordMeanings(),
+				verse.getVerseShort(), verse.getCommentary());
+	}
+
 	private List<String> getKeyList(GitaChapter chapter) {
 		List<String> keylist = new ArrayList<>();
 		chapter.getSubChapter().keySet().forEach(key -> {
 			keylist.add(key);
 		});
-		Collections.sort(keylist, new StringComparator()); 
+		Collections.sort(keylist, new StringComparator());
 		return keylist;
 	}
-	
 
 }

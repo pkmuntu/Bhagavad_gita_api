@@ -12,20 +12,25 @@ import org.springframework.stereotype.Service;
 import api.gita.commons.Constants;
 import api.gita.entity.Book;
 import api.gita.entity.GitaChapter;
+import api.gita.entity.Verse;
 import api.gita.exception.NotFoundException;
 import api.gita.repository.BookRepository;
 import api.gita.repository.GitaChapterRepository;
+import api.gita.repository.VerseRepository;
 import api.gita.service.IBookService;
 
-@Service("book")
+@Service("bookService")
 public class BookServiceImpl implements IBookService {
 
 	private final BookRepository bookRepository;
 	private final GitaChapterRepository gitaChapterRepository;
+	private final VerseRepository verseRepository;
 
-	public BookServiceImpl(BookRepository bookRepository, GitaChapterRepository gitaChapterRepository) {
+	public BookServiceImpl(BookRepository bookRepository, GitaChapterRepository gitaChapterRepository,
+			VerseRepository verseRepository) {
 		this.bookRepository = bookRepository;
 		this.gitaChapterRepository = gitaChapterRepository;
+		this.verseRepository = verseRepository;
 	}
 
 	@Override
@@ -54,12 +59,22 @@ public class BookServiceImpl implements IBookService {
 	}
 
 	@Override
-	public GitaChapter getChapterByBookId(Integer bookId,Integer chapterIndex) throws Exception {
-		Optional<GitaChapter> optChapter=gitaChapterRepository.findByBookIdAndChapterIndex(bookId,chapterIndex);
-		if(optChapter.isPresent()) {
+	public GitaChapter getChapterByBookId(Integer bookId, Integer chapterIndex) throws Exception {
+		Optional<GitaChapter> optChapter = gitaChapterRepository.findByBookIdAndChapterIndex(bookId, chapterIndex);
+		if (optChapter.isPresent()) {
 			return optChapter.get();
 		}
-		throw new NotFoundException(Constants.BOOK_NOT_FOUND);
+		throw new NotFoundException(Constants.SUBCHAPTER_NOT_FOUND);
+	}
+
+	@Override
+	public Verse getVerse(Integer bookId, Integer chapterIndex, String verseNumber) throws Exception {
+		Optional<Verse> optVerse = verseRepository.findByBookIdAndChapterIndexAndVerseNumber(bookId, chapterIndex,
+				verseNumber);
+		if (optVerse.isPresent()) {
+			return optVerse.get();
+		}
+		throw new NotFoundException(Constants.VERSE_NOT_FOUND);
 	}
 
 }

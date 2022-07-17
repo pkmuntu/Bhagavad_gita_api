@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 
 import api.gita.entity.Book;
 import api.gita.entity.GitaChapter;
+import api.gita.entity.Verse;
 
 public interface IBookService {
 
@@ -17,5 +18,7 @@ public interface IBookService {
 
 	public Page<GitaChapter> getChapters(Integer bookId, Integer pageNumber, Integer pageSize) throws Exception;
 
-	public GitaChapter getChapterByBookId(Integer bookId,Integer chapterIndex) throws Exception;
+	public GitaChapter getChapterByBookId(Integer bookId, Integer chapterIndex) throws Exception;
+
+	public Verse getVerse(Integer bookId, Integer chapterIndex, String verseNumber) throws Exception;
 }

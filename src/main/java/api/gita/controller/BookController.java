@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import api.gita.commons.Constants;
 import api.gita.controller.mapper.BookControllerMapper;
+import api.gita.dto.response.BookListResponseDTO;
 import api.gita.dto.response.ChapterResponseDTO;
 import api.gita.dto.response.SubChapterResponseDTO;
-import api.gita.dto.response.BookListResponseDTO;
+import api.gita.dto.response.VerseResponseDTO;
 import api.gita.entity.Book;
 import api.gita.entity.GitaChapter;
+import api.gita.entity.Verse;
 import api.gita.rest.response.RestAPICode;
 import api.gita.rest.response.RestResponse;
 import api.gita.service.IBookService;
@@ -62,17 +64,27 @@ public class BookController {
 			throws Exception {
 		Book books = bookService.getBook(id);
 		Page<GitaChapter> gitaChapters = bookService.getChapters(id, pageNumber, pageSize);
-		ChapterResponseDTO bookChapterResponseDTO = bookContollerMapper.buildBookChapterResponse(gitaChapters,
-				books);
+		ChapterResponseDTO bookChapterResponseDTO = bookContollerMapper.buildBookChapterResponse(gitaChapters, books);
 		return RestResponse.of(bookChapterResponseDTO, Constants.BOOK_CHAPTER, RestAPICode.OK_STATUS_CODE);
 	}
-	
+
 	@GetMapping("/subChapter")
-	public RestResponse<SubChapterResponseDTO> getSubChapters(@RequestParam("bookId") Integer bookId,@RequestParam("chapterIndex") Integer chapterIndex,
-			@RequestParam(defaultValue = "0") Integer pageNumber, @RequestParam(defaultValue = "10") Integer pageSize) throws Exception{
-		GitaChapter chapter=bookService.getChapterByBookId(bookId,chapterIndex);
-		SubChapterResponseDTO subChapterResponseDTO=bookContollerMapper.buildChapterResponseDTO(chapter, pageNumber, pageSize);
+	public RestResponse<SubChapterResponseDTO> getSubChapters(@RequestParam("bookId") Integer bookId,
+			@RequestParam("chapterIndex") Integer chapterIndex, @RequestParam(defaultValue = "0") Integer pageNumber,
+			@RequestParam(defaultValue = "10") Integer pageSize) throws Exception {
+		GitaChapter chapter = bookService.getChapterByBookId(bookId, chapterIndex);
+		SubChapterResponseDTO subChapterResponseDTO = bookContollerMapper.buildChapterResponseDTO(chapter, pageNumber,
+				pageSize);
 		return RestResponse.of(subChapterResponseDTO, Constants.BOOK_SUBCHAPTER, RestAPICode.OK_STATUS_CODE);
+	}
+
+	@GetMapping("/verse")
+	public RestResponse<VerseResponseDTO> getVerse(@RequestParam("bookId") Integer bookId,
+			@RequestParam("chapterIndex") Integer chapterIndex, @RequestParam(required = true) String verseNumber)
+			throws Exception {
+		Verse verse = bookService.getVerse(bookId, chapterIndex, verseNumber);
+		VerseResponseDTO verseResponseDTO = bookContollerMapper.buildVerseRespnseDTO(verse);
+		return RestResponse.of(verseResponseDTO, Constants.VERSE_DETAILS, RestAPICode.OK_STATUS_CODE);
 	}
 
 }
