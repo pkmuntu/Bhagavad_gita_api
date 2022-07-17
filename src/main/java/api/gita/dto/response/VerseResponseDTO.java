@@ -14,13 +14,12 @@ public class VerseResponseDTO {
 	private String verseNumber;
 	private String originalVerse_Hi;
 	private String originalVerse_En;
-	private String wordMeanings;
 	private String verseShort;
 	private String commentary;
 
 	public static VerseResponseDTO of(Integer bookId, Integer chapterIndex, String verseNumber, String originalVerse_Hi,
-			String originalVerse_En, String wordMeanings, String verseShort, String commentary) {
-		return new VerseResponseDTO(bookId, chapterIndex, verseNumber, originalVerse_Hi, originalVerse_En, wordMeanings,
+			String originalVerse_En, String verseShort, String commentary) {
+		return new VerseResponseDTO(bookId, chapterIndex, verseNumber, originalVerse_Hi, originalVerse_En,
 				verseShort, commentary);
 	}
 

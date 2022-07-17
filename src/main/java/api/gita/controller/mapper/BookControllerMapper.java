@@ -82,8 +82,7 @@ public class BookControllerMapper {
 
 	public VerseResponseDTO buildVerseRespnseDTO(Verse verse) {
 		return VerseResponseDTO.of(verse.getBookId(), verse.getChapterIndex(), verse.getVerseNumber(),
-				verse.getOriginalVerse_Hi(), verse.getOriginalVerse_En(), verse.getWordMeanings(),
-				verse.getVerseShort(), verse.getCommentary());
+				verse.getOriginalVerse_Hi(), verse.getOriginalVerse_En(), verse.getVerseShort(), verse.getCommentary());
 	}
 
 	private List<String> getKeyList(GitaChapter chapter) {
