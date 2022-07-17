@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookChapterDTO {
+public class ChapterDTO {
 
 	private Integer bookId;
 	private Integer chapterIndex;
@@ -15,8 +15,8 @@ public class BookChapterDTO {
 	private String chapterHeading;
 	private String description;
 
-	public static BookChapterDTO of(Integer bookId, Integer chapterIndex, String chapterName, String chapterHeading,
+	public static ChapterDTO of(Integer bookId, Integer chapterIndex, String chapterName, String chapterHeading,
 			String description) {
-		return new BookChapterDTO(bookId, chapterIndex, chapterName, chapterHeading, description);
+		return new ChapterDTO(bookId, chapterIndex, chapterName, chapterHeading, description);
 	}
 }

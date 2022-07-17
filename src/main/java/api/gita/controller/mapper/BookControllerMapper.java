@@ -1,16 +1,19 @@
-package api.gita.controller;
+package api.gita.controller.mapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import api.gita.dto.response.BookChapterDTO;
-import api.gita.dto.response.BookChapterResponseDTO;
 import api.gita.dto.response.BookListResponseDTO;
 import api.gita.dto.response.BookResponseDTO;
+import api.gita.dto.response.ChapterDTO;
+import api.gita.dto.response.ChapterResponseDTO;
 import api.gita.dto.response.MetadataForPagination;
+import api.gita.dto.response.SubChapterDTO;
+import api.gita.dto.response.SubChapterResponseDTO;
 import api.gita.entity.Book;
 import api.gita.entity.GitaChapter;
 
@@ -38,17 +41,44 @@ public class BookControllerMapper {
 		return bookListResponses;
 	}
 
-	public BookChapterResponseDTO buildBookChapterResponse(Page<GitaChapter> gitaChapters, Book book) {
+	public ChapterResponseDTO buildBookChapterResponse(Page<GitaChapter> gitaChapters, Book book) {
 		MetadataForPagination metadataForPagination = MetadataForPagination.of(gitaChapters.getNumber(),
 				gitaChapters.getSize(), gitaChapters.getTotalElements(), gitaChapters.getTotalPages());
-		List<BookChapterDTO> bookChapters = new ArrayList<>();
+		List<ChapterDTO> bookChapters = new ArrayList<>();
 		gitaChapters.forEach(bookChapter -> {
-			bookChapters.add(BookChapterDTO.of(bookChapter.getBookId(), bookChapter.getChapterIndex(),
+			bookChapters.add(ChapterDTO.of(bookChapter.getBookId(), bookChapter.getChapterIndex(),
 					bookChapter.getChapterName(), bookChapter.getChapterHeading(), bookChapter.getDescription()));
 		});
-		return BookChapterResponseDTO.of(BookResponseDTO.of(book.getBookId(), book.getTitle(), book.getSubTitle(),
+		return ChapterResponseDTO.of(BookResponseDTO.of(book.getBookId(), book.getTitle(), book.getSubTitle(),
 				book.getColorCode(), book.getLanguage(), book.getColorCode()), metadataForPagination, bookChapters);
 
+	}
+
+	public SubChapterResponseDTO buildChapterResponseDTO(GitaChapter chapter, Integer pageNumber, Integer pageSize) {
+		ChapterDTO chapterDTO = ChapterDTO.of(chapter.getBookId(), chapter.getChapterIndex(), chapter.getChapterName(),
+				chapter.getChapterHeading(), chapter.getDescription());
+		MetadataForPagination metadataForPagination = MetadataForPagination.of(pageNumber, pageSize,
+				(long) (int) chapter.getSubChapter().keySet().size(),
+				((chapter.getSubChapter().keySet().size()) % pageSize) == 0
+						? ((chapter.getSubChapter().keySet().size()) / pageSize)
+						: (((chapter.getSubChapter().keySet().size()) / pageSize) + 1));
+		Integer count = 0;
+		List<SubChapterDTO> subChapters = new ArrayList<SubChapterDTO>();
+		for (String key : getKeyList(chapter)) {
+			if (count == pageSize )
+				break;
+			subChapters.add(SubChapterDTO.of(key, chapter.getSubChapter().get(key)));
+		}
+		return SubChapterResponseDTO.of(chapterDTO, metadataForPagination, subChapters);
+	}
+
+	private List<String> getKeyList(GitaChapter chapter) {
+		List<String> keylist = new ArrayList<>();
+		chapter.getSubChapter().keySet().forEach(key -> {
+			keylist.add(key);
+		});
+		Collections.sort(keylist);
+		return keylist;
 	}
 
 }

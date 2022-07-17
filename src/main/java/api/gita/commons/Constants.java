@@ -8,4 +8,5 @@ public class Constants {
 	public static final String CHAPTER_INDEX = "chapterIndex";
 	public static final String BOOK_NOT_FOUND = "Book not present for this id";
 	public static final String BOOK_CHAPTER = "book chapters!!";
+	public static final String BOOK_SUBCHAPTER = "book subchapter!!";
 }

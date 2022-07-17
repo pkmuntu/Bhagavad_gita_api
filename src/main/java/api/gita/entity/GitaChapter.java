@@ -1,5 +1,7 @@
 package api.gita.entity;
 
+import java.util.Map;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -29,4 +31,6 @@ public class GitaChapter {
 	private String chapterHeading;
 	@NonNull
 	private String description;
+	@NonNull
+	private Map<String, String> subChapter;
 }

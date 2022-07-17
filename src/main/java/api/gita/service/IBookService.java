@@ -16,4 +16,6 @@ public interface IBookService {
 	public Book getBook(Integer id) throws Exception;
 
 	public Page<GitaChapter> getChapters(Integer bookId, Integer pageNumber, Integer pageSize) throws Exception;
+
+	public GitaChapter getChapterByBookId(Integer bookId,Integer chapterIndex) throws Exception;
 }

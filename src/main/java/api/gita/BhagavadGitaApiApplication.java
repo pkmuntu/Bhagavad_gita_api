@@ -8,6 +8,7 @@ public class BhagavadGitaApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BhagavadGitaApiApplication.class, args);
+
 	}
 
 }

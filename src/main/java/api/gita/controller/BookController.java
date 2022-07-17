@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import api.gita.commons.Constants;
-import api.gita.dto.response.BookChapterResponseDTO;
+import api.gita.controller.mapper.BookControllerMapper;
+import api.gita.dto.response.ChapterResponseDTO;
+import api.gita.dto.response.SubChapterResponseDTO;
 import api.gita.dto.response.BookListResponseDTO;
 import api.gita.entity.Book;
 import api.gita.entity.GitaChapter;
@@ -55,14 +57,22 @@ public class BookController {
 	}
 
 	@GetMapping("/chapter/{id}")
-	public RestResponse<BookChapterResponseDTO> getChapterList(@PathVariable("id") Integer id,
+	public RestResponse<ChapterResponseDTO> getChapterList(@PathVariable("id") Integer id,
 			@RequestParam(defaultValue = "0") Integer pageNumber, @RequestParam(defaultValue = "18") Integer pageSize)
 			throws Exception {
 		Book books = bookService.getBook(id);
 		Page<GitaChapter> gitaChapters = bookService.getChapters(id, pageNumber, pageSize);
-		BookChapterResponseDTO bookChapterResponseDTO = bookContollerMapper.buildBookChapterResponse(gitaChapters,
+		ChapterResponseDTO bookChapterResponseDTO = bookContollerMapper.buildBookChapterResponse(gitaChapters,
 				books);
-		return RestResponse.of(bookChapterResponseDTO, Constants.BOOK_CHAPTER, RestAPICode.CREATED_STATUS_CODE);
+		return RestResponse.of(bookChapterResponseDTO, Constants.BOOK_CHAPTER, RestAPICode.OK_STATUS_CODE);
+	}
+	
+	@GetMapping("/subChapter")
+	public RestResponse<SubChapterResponseDTO> getSubChapters(@RequestParam("bookId") Integer bookId,@RequestParam("chapterIndex") Integer chapterIndex,
+			@RequestParam(defaultValue = "0") Integer pageNumber, @RequestParam(defaultValue = "10") Integer pageSize) throws Exception{
+		GitaChapter chapter=bookService.getChapterByBookId(bookId,chapterIndex);
+		SubChapterResponseDTO subChapterResponseDTO=bookContollerMapper.buildChapterResponseDTO(chapter, pageNumber, pageSize);
+		return RestResponse.of(subChapterResponseDTO, Constants.BOOK_SUBCHAPTER, RestAPICode.OK_STATUS_CODE);
 	}
 
 }

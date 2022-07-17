@@ -8,17 +8,17 @@ import com.mongodb.lang.NonNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Data
-@Document
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
-public class VerseEnglish {
+@Document("VERSE")
+public class Verse {
 
 	@Id
 	private String id;
+	@NonNull
+	private Integer bookId;
 	@NonNull
 	private Integer chapterIndex;
 	@NonNull

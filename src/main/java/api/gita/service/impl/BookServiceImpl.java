@@ -53,4 +53,13 @@ public class BookServiceImpl implements IBookService {
 		return gitaChapterRepository.findByBookId(bookId, pageable);
 	}
 
+	@Override
+	public GitaChapter getChapterByBookId(Integer bookId,Integer chapterIndex) throws Exception {
+		Optional<GitaChapter> optChapter=gitaChapterRepository.findByBookIdAndChapterIndex(bookId,chapterIndex);
+		if(optChapter.isPresent()) {
+			return optChapter.get();
+		}
+		throw new NotFoundException(Constants.BOOK_NOT_FOUND);
+	}
+
 }
