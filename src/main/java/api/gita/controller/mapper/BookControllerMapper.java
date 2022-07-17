@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import api.gita.commons.StringComparator;
 import api.gita.dto.response.BookListResponseDTO;
 import api.gita.dto.response.BookResponseDTO;
 import api.gita.dto.response.ChapterDTO;
@@ -65,8 +66,13 @@ public class BookControllerMapper {
 		Integer count = 0;
 		List<SubChapterDTO> subChapters = new ArrayList<SubChapterDTO>();
 		for (String key : getKeyList(chapter)) {
-			if (count == pageSize )
+			if(count<pageNumber*pageSize) {
+				count++;
+				continue;
+			}
+			if (count == (pageNumber+1)*pageSize )
 				break;
+			count++;
 			subChapters.add(SubChapterDTO.of(key, chapter.getSubChapter().get(key)));
 		}
 		return SubChapterResponseDTO.of(chapterDTO, metadataForPagination, subChapters);
@@ -77,8 +83,9 @@ public class BookControllerMapper {
 		chapter.getSubChapter().keySet().forEach(key -> {
 			keylist.add(key);
 		});
-		Collections.sort(keylist);
+		Collections.sort(keylist, new StringComparator()); 
 		return keylist;
 	}
+	
 
 }
